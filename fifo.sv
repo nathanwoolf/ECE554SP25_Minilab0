@@ -35,7 +35,8 @@ always_ff @(posedge clk, negedge rst_n) begin
     full = 0;
   end
   else begin
-    regfile[write_ptr] = i_data;
+    if ((wren && !full) || (wren & rden))
+      regfile[write_ptr] = i_data;
     write_ptr = write_ptr_next;
     read_ptr = read_ptr_next;
     o_data = o_data_next;

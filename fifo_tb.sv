@@ -506,6 +506,22 @@ initial begin
         end
     end
 
+    // ***************** TEST 12.5 *****************
+    wren = 1;
+    i_data = 8'h09;
+    @(negedge clk)
+    wren = 0;
+    begin
+        if (empty !== 0) begin
+            $display("Test 12.5 failed: empty set after attempted write 9.");
+            $stop();
+        end
+        if (full !== 1) begin
+            $display("Test 12.5 failed: full not set after attempted write 9.");
+            $stop();
+        end
+    end
+
     // ***************** TEST 13 *****************
     wren = 1;
     rden = 1;
