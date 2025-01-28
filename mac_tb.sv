@@ -59,12 +59,12 @@ initial begin
     /////////////////////////////
 	//TEST3: add some more values
     /////////////////////////////
-    Ain = 8'h2;
-    Bin = 8'h2;
+    Ain = 8'h4;
+    Bin = 8'h4;
     En = 1'b1;
 
     @(negedge clk) begin
-        if (Cout === 8)  
+        if (Cout === 20)  
             $display("3.PASS"); 
         else begin
             $display("3.FAIL: MAC does not equal expected value"); 
@@ -73,20 +73,38 @@ initial begin
     end
 
     /////////////////////////////
-	//TEST4: set clr -> make sure Cout goes to zero
+	//TEST4: try multiplying in zero
+    /////////////////////////////
+    Ain = 8'h8;
+    Bin = 8'h0;
+
+    @(negedge clk) begin
+        if (Cout === 20)
+            $display("4.PASS");
+        else begin
+            $display("4.FAIL: MAC does not equal expected value");
+            $stop();
+        end
+    end
+
+    /////////////////////////////
+	//TEST5: set clr -> make sure Cout goes to zero
     /////////////////////////////
     Clr = 1'b1;
     @(negedge clk) begin
         if (Cout === 0)  
-            $display("4.PASS"); 
+            $display("5.PASS"); 
         else begin
-            $display("4.FAIL: MAC does not equal expected value"); 
+            $display("5.FAIL: MAC does not equal expected value"); 
             $stop();
         end
     end
 
 	$display("Passed all tests"); 
 	$stop(); 
+
+
+
 end
 
 always 
