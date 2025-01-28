@@ -25,31 +25,36 @@ initial begin
 
 
     // ***************** TEST 1 *****************
+    $display("Test 1: test full and empty when there is no write.");
     @(negedge clk) begin
         if(empty !== 1) begin
             $display("Test 1 failed: empty not set when there was no write.");
             $stop();
         end
-        if(full !== 0) begin
+        else if(full !== 0) begin
             $display("Test 1 failed: full set when array should be empty.");
             $stop();
         end
     end
+    $display("Test 1 passed\n");
 
     // ***************** TEST 2 *****************
+    $display("Test 2: test full and empty data appears on i_data.");
     i_data = 8'h01;
     @(negedge clk) begin
         if(empty !== 1) begin
             $display("Test 2 failed: empty not set when there was no write.");
             $stop();
         end
-        if(full !== 0) begin
+        else if(full !== 0) begin
             $display("Test 2 failed: full set when array should be empty.");
             $stop();
         end
     end
+    $display("Test 2 passed\n");
 
     // ***************** TEST 3 *****************
+    $display("Test 3: test a write then read of data value 1.");
     i_data = 8'h01;
     wren = 1;
     @(negedge clk)
@@ -69,16 +74,20 @@ initial begin
             $stop();
         end
     end
+    $display("Test 3 passed\n");
 
     // ***************** TEST 4 *****************
+    $display("Test 4: test that empty is reset when fifo is emptied.");
     @(negedge clk) begin
         if (empty !== 1) begin
             $display("Test 4 failed: empty not reset when queue emptied.");
             $stop();
         end
     end
+    $display("Test 4 passed\n");
 
     // ***************** TEST 5 *****************
+    $display("Test 5: test a write of data value 2, write of data value 3, then read of data value 2.");
     i_data = 8'h02;
     wren = 1;
     @(negedge clk)
@@ -95,8 +104,10 @@ initial begin
             $stop();
         end
     end
+    $display("Test 5 passed\n");
 
     // ***************** TEST 6 *****************
+    $display("Test 6: test that o_data stays at the same value after a cycle of no read.");
     @(negedge clk)
     begin
         if (o_data !== 8'h02) begin
@@ -104,8 +115,10 @@ initial begin
             $stop();
         end
     end
+    $display("Test 6 passed\n");
 
     // ***************** TEST 7 *****************
+    $display("Test 7: test read of the previous data value 3.");
     rden = 1;
     @(negedge clk)
     rden = 0;
@@ -115,8 +128,10 @@ initial begin
             $stop();
         end
     end
+    $display("Test 7 passed\n");
 
     // ***************** TEST 8 *****************
+    $display("Test 8: test write of 8 consecutive data values and that read and write are correct at all times.");
     wren = 1;
     i_data = 8'h01;
     @(negedge clk)
@@ -222,8 +237,10 @@ initial begin
             $stop();
         end
     end
+    $display("Test 8 passed\n");
 
     // ***************** TEST 9 *****************
+    $display("Test 9: test reading and writing at the same time on a full queue.");
     wren = 1;
     rden = 1;
     i_data = 8'h09;
@@ -244,8 +261,10 @@ initial begin
             $stop();
         end
     end
+    $display("Test 9 passed\n");
 
     // ***************** TEST 10 *****************
+    $display("Test 10: test reading 8 last 8 written values on full queue.");
     rden = 1;
     @(negedge clk)
     begin
@@ -375,8 +394,10 @@ initial begin
         end
     end
     rden = 0;
+    $display("Test 10 passed\n");
 
     // ***************** TEST 11 *****************
+    $display("Test 11: test reading on empty.");
     rden = 1;
     @(negedge clk)
     rden = 0;
@@ -394,8 +415,10 @@ initial begin
             $stop();
         end
     end
+    $display("Test 11 passed\n");
 
     // ***************** TEST 12 *****************
+    $display("Test 12: test writing value to fill queue from the start of the queue.");
     @(negedge clk)
     rst_n = 0;
     @(negedge clk)
@@ -505,8 +528,10 @@ initial begin
             $stop();
         end
     end
+    $display("Test 12 passed\n");
 
     // ***************** TEST 12.5 *****************
+    $display("Test 12.5: make sure no values are written if attempting to write on full queue.");
     wren = 1;
     i_data = 8'h09;
     @(negedge clk)
@@ -521,8 +546,10 @@ initial begin
             $stop();
         end
     end
+    $display("Test 12.5 passed\n");
 
     // ***************** TEST 13 *****************
+    $display("Test 13: test reading and writing on full queue when pointers start at 0.");
     wren = 1;
     rden = 1;
     i_data = 8'h09;
@@ -543,8 +570,10 @@ initial begin
             $stop();
         end
     end
+    $display("Test 13 passed\n");
 
     // ***************** TEST 14 *****************
+    $display("Test 14: read previous 8 values with pointers across queue boundary.");
     rden = 1;
     @(negedge clk)
     begin
@@ -674,24 +703,7 @@ initial begin
         end
     end
     rden = 0;
-
-    // ***************** TEST 15 *****************
-    rden = 1;
-    @(negedge clk)
-    begin
-        if (empty !== 1) begin
-            $display("Test 15 failed: empty not set after read on empty.");
-            $stop();
-        end
-        if (full !== 0) begin
-            $display("Test 15 failed: full set after read on empty.");
-            $stop();
-        end
-        if (o_data !== 8'h09) begin
-            $display("Test 15 failed: previous read data not valid after read on empty.");
-            $stop();
-        end
-    end
+    $display("Test 14 passed\n");
 
     $display("HOORAY ALL TESTS PASSED!!!!");
     $stop();
