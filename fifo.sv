@@ -17,6 +17,8 @@ module FIFO
 reg [DATA_WIDTH-1:0] regfile [DEPTH-1:0];
 reg [$clog2(DEPTH)-1:0] write_ptr;
 reg [$clog2(DEPTH)-1:0] read_ptr;
+reg [$clog2(DEPTH)-1:0] write_ptr_plus_one;
+reg [$clog2(DEPTH)-1:0] read_ptr_plus_one;
 
 logic [$clog2(DEPTH)-1:0] write_ptr_next;
 logic [$clog2(DEPTH)-1:0] read_ptr_next;
@@ -42,6 +44,9 @@ always_ff @(posedge clk, negedge rst_n) begin
   end
 end
 
+assign write_ptr_plus_one = write_ptr + 1;
+assign read_ptr_plus_one = read_ptr + 1;
+
 always_comb begin
   if ((wren && !full) || (wren && rden))
     write_ptr_next <= write_ptr + 1;
@@ -57,14 +62,14 @@ always_comb begin
     o_data_next <= o_data;
   end
 
-  if (rden && !wren && read_ptr + 1 == write_ptr)
+  if (rden && !wren && (read_ptr_plus_one == write_ptr))
     empty_next <= 1;
   else if (wren)
     empty_next <= 0;
   else
     empty_next <= empty;
 
-  if (!rden && wren && read_ptr == write_ptr + 1)
+  if (!rden && wren && (read_ptr == write_ptr_plus_one))
     full_next <= 1;
   else if (rden && !wren)
     full_next <= 0;

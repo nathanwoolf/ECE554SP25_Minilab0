@@ -379,6 +379,7 @@ initial begin
     // ***************** TEST 11 *****************
     rden = 1;
     @(negedge clk)
+    rden = 0;
     begin
         if (empty !== 1) begin
             $display("Test 11 failed: empty not set after read on empty.");
@@ -394,7 +395,290 @@ initial begin
         end
     end
 
+    // ***************** TEST 12 *****************
+    @(negedge clk)
+    rst_n = 0;
+    @(negedge clk)
+    rst_n = 1;
+    wren = 1;
+    i_data = 8'h01;
+    @(negedge clk)
+    begin
+        if (empty !== 0) begin
+            $display("Test 12 failed: empty set after write 1.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 12 failed: full set after write 1.");
+            $stop();
+        end
+    end
+    wren = 1;
+    i_data = 8'h02;
+    @(negedge clk)
+    begin
+        if (empty !== 0) begin
+            $display("Test 12 failed: empty set after write 2.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 12 failed: full set after write 2.");
+            $stop();
+        end
+    end
+    wren = 1;
+    i_data = 8'h03;
+    @(negedge clk)
+    begin
+        if (empty !== 0) begin
+            $display("Test 12 failed: empty set after write 3.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 12 failed: full set after write 3.");
+            $stop();
+        end
+    end
+    wren = 1;
+    i_data = 8'h04;
+    @(negedge clk)
+    begin
+        if (empty !== 0) begin
+            $display("Test 12 failed: empty set after write 4.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 12 failed: full set after write 4.");
+            $stop();
+        end
+    end
+    wren = 1;
+    i_data = 8'h05;
+    @(negedge clk)
+    begin
+        if (empty !== 0) begin
+            $display("Test 12 failed: empty set after write 5.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 12 failed: full set after write 5.");
+            $stop();
+        end
+    end
+    wren = 1;
+    i_data = 8'h06;
+    @(negedge clk)
+    begin
+        if (empty !== 0) begin
+            $display("Test 12 failed: empty set after write 6.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 12 failed: full set after write 6.");
+            $stop();
+        end
+    end
+    wren = 1;
+    i_data = 8'h07;
+    @(negedge clk)
+    begin
+        if (empty !== 0) begin
+            $display("Test 12 failed: empty set after write 7.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 12 failed: full set after write 7.");
+            $stop();
+        end
+    end
+    wren = 1;
+    i_data = 8'h08;
+    @(negedge clk)
+    wren = 0;
+    begin
+        if (empty !== 0) begin
+            $display("Test 12 failed: empty set after write 8.");
+            $stop();
+        end
+        if (full !== 1) begin
+            $display("Test 12 failed: full not set after write 8.");
+            $stop();
+        end
+    end
+
+    // ***************** TEST 13 *****************
+    wren = 1;
+    rden = 1;
+    i_data = 8'h09;
+    @(negedge clk)
+    wren = 0;
+    rden = 0;
+    begin
+        if (empty !== 0) begin
+            $display("Test 13 failed: empty set when reading and writing on full queue.");
+            $stop();
+        end
+        if (full !== 1) begin
+            $display("Test 13 failed: full not set after read and write on full queue.");
+            $stop();
+        end
+        if (o_data !== 8'h01) begin
+            $display("Test 13 failed: read data not valid after read and write on full queue.");
+            $stop();
+        end
+    end
+
+    // ***************** TEST 14 *****************
+    rden = 1;
+    @(negedge clk)
+    begin
+        if (empty !== 0) begin
+            $display("Test 14 failed: empty set after read 1.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 14 failed: full set after read 1.");
+            $stop();
+        end
+        if (o_data !== 8'h02) begin
+            $display("Test 14 failed: read data not valid after read 1.");
+            $stop();
+        end
+    end
+    rden = 1;
+    @(negedge clk)
+    begin
+        if (empty !== 0) begin
+            $display("Test 14 failed: empty set after read 2.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 14 failed: full set after read 2.");
+            $stop();
+        end
+        if (o_data !== 8'h03) begin
+            $display("Test 14 failed: read data not valid after read 2.");
+            $stop();
+        end
+    end
+    rden = 1;
+    @(negedge clk)
+    begin
+        if (empty !== 0) begin
+            $display("Test 14 failed: empty set after read 3.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 14 failed: full set after read 3.");
+            $stop();
+        end
+        if (o_data !== 8'h04) begin
+            $display("Test 14 failed: read data not valid after read 3.");
+            $stop();
+        end
+    end
+    rden = 1;
+    @(negedge clk)
+    begin
+        if (empty !== 0) begin
+            $display("Test 14 failed: empty set after read 4.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 14 failed: full set after read 4.");
+            $stop();
+        end
+        if (o_data !== 8'h05) begin
+            $display("Test 14 failed: read data not valid after read 4.");
+            $stop();
+        end
+    end
+    rden = 1;
+    @(negedge clk)
+    begin
+        if (empty !== 0) begin
+            $display("Test 14 failed: empty set after read 5.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 14 failed: full set after read 5.");
+            $stop();
+        end
+        if (o_data !== 8'h06) begin
+            $display("Test 14 failed: read data not valid after read 5.");
+            $stop();
+        end
+    end
+    rden = 1;
+    @(negedge clk)
+    begin
+        if (empty !== 0) begin
+            $display("Test 14 failed: empty set after read 6.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 14 failed: full set after read 6.");
+            $stop();
+        end
+        if (o_data !== 8'h07) begin
+            $display("Test 14 failed: read data not valid after read 6.");
+            $stop();
+        end
+    end
+    rden = 1;
+    @(negedge clk)
+    begin
+        if (empty !== 0) begin
+            $display("Test 14 failed: empty set after read 7.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 14 failed: full set after read 7.");
+            $stop();
+        end
+        if (o_data !== 8'h08) begin
+            $display("Test 14 failed: read data not valid after read 7.");
+            $stop();
+        end
+    end
+    rden = 1;
+    @(negedge clk)
+    begin
+        if (empty !== 1) begin
+            $display("Test 14 failed: empty not set after read 8.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 14 failed: full set after read 8.");
+            $stop();
+        end
+        if (o_data !== 8'h09) begin
+            $display("Test 14 failed: read data not valid after read 8.");
+            $stop();
+        end
+    end
+    rden = 0;
+
+    // ***************** TEST 15 *****************
+    rden = 1;
+    @(negedge clk)
+    begin
+        if (empty !== 1) begin
+            $display("Test 15 failed: empty not set after read on empty.");
+            $stop();
+        end
+        if (full !== 0) begin
+            $display("Test 15 failed: full set after read on empty.");
+            $stop();
+        end
+        if (o_data !== 8'h09) begin
+            $display("Test 15 failed: previous read data not valid after read on empty.");
+            $stop();
+        end
+    end
+
     $display("HOORAY ALL TESTS PASSED!!!!");
+    $stop();
 end
 
 always 
