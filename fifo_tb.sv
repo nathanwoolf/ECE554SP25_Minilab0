@@ -11,7 +11,7 @@ module FIFO_tb
     reg full;
     reg empty;
 
-    FIFO FIFO_DUT(.clk(clk), .rst_n(rst_n), .rden(rden), .wren(wren), .i_data(i_data), 
+    FIFO #(.DEPTH(DEPTH), .DATA_WIDTH(DATA_WIDTH)) FIFO_DUT(.clk(clk), .rst_n(rst_n), .rden(rden), .wren(wren), .i_data(i_data), 
                     .o_data(o_data), .full(full), .empty(empty));
 
 initial begin

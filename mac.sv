@@ -15,10 +15,13 @@ output [DATA_WIDTH*3-1:0] Cout
 reg [DATA_WIDTH*3-1:0]sum_int;
 
 always_ff @(posedge clk, negedge rst_n) begin 
-    if (!rst_n || Clr) begin 
+    if (!rst_n) begin 
         sum_int = 0;
     end
-    if (En & !Clr) begin
+    else if (Clr) begin
+        sum_int = 0;
+    end
+    else if (En) begin
         sum_int = sum_int + (Ain * Bin);
     end
 end
